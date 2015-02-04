@@ -43,19 +43,27 @@
 <div id='map'></div>
 <div id='count' class='ui-control'></div>
 <script>
-L.mapbox.accessToken = 'pk.eyJ1IjoiZ2FleHRyYSIsImEiOiJsNGhqYzVvIn0.JdDOPCQHSsWUTQSCo9UdWA';
 var geojson;
 var map = L.map('map')
     .setView([40, -74.50], 2);
 
+function getColor(d) {
+    
+    if (d===null){
+		return '#D9D9D9'
+		}
+    else{
+    return 'gray'
+}
+}
  function style(feature) {
     return {
-        fillColor: 'gray',
-        weight: 2,
+        fillColor: getColor(feature.properties.band),
+        weight: 1,
         opacity: 1,
         color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
+        //dashArray: '1',
+        fillOpacity: 1
     };
 }
 
@@ -63,7 +71,7 @@ function highlightFeature(e) {
     var layer = e.target;
 info.update(layer.feature.properties);
     layer.setStyle({
-        weight: 5,
+        weight: 3,
         color: '#666',
         dashArray: '',
         fillOpacity: 0.7
@@ -86,8 +94,8 @@ info.onAdd = function (map) {
     return this._div;
 };
 info.update = function (props) {
-    count.innerHTML = '<h4>GI Rank</h4>' +  (props ?
-        '<b>' + props.admin + '</b><br />' + props.band + ' Band'
+    count.innerHTML = '<h2>GI Rank</h2>' +  (props ?
+        '<label>' + props.admin + '</label><br />' +'Band '+ props.band 
         : 'Hover over a state');
 };
 
